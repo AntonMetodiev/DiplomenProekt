@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PetHotel.App.Entities;
+using PetHotel.App.Infrastructure;
 using PetHotel.Data;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,8 @@ namespace PetHotel
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -52,6 +55,7 @@ namespace PetHotel
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.PrepareDatabase();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

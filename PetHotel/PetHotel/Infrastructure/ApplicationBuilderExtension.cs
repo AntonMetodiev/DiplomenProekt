@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using PetHotel.App.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +11,36 @@ namespace PetHotel.App.Infrastructure
 {
     public static class ApplicationBuilderExtension
     {
-        public static IApplicationBuilder PrepareDatabase(
-            this IApplicationBuilder app)
+        public static async Task<IApplicationBuilder> PrepareDatabase(this IApplicationBuilder app)
         {
-            using var scopedServices = app.ApplicationServices.CreateScope();
-            var serviceProvider = scopedServices.ServiceProvider;
+            using var serviceScope = app.ApplicationServices.CreateScope();
+            var services = serviceScope.ServiceProvider;
 
-            SeedAdministrator(serviceProvider);
+            await RoleSeeder(services);
+            await SeedAdministrator(services);
 
             return app;
         }
 
 
-        private static void SeedAdministrator(IServiceProvider services)
+        private static async Task SeedAdministrator(IServiceProvider serviceProvider)
         {
-           
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            if (await userManager.FindByNameAsync("admin") == null)
+            {
+                ApplicationUser user = new ApplicationUser();
+                user.UserName = "admin";
+                user.Email = "admin@admin.com";
+
+                var result = await userManager.CreateAsync
+                    (user, "123!@#qweQWE");
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, "Administrator").Wait();
+                }
+            }
         }
 
     }
