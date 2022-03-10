@@ -1,5 +1,4 @@
-﻿using PetHotel.Domain;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -25,41 +24,7 @@ namespace PetHotel.App.Infrastructure
 
         private static void SeedAdministrator(IServiceProvider services)
         {
-            var userManager = services.GetRequiredService<UserManager<PetHotelUser>>();
-            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-            Task
-                .Run(async () =>
-                {
-                    if (await roleManager.RoleExistsAsync("Administrator"))
-                    {
-                        return;
-                    }
-
-                    var role = new IdentityRole { Name = "Administrator" };
-
-                    await roleManager.CreateAsync(role);
-
-                    const string adminPassword = "123!@#qweQWE";
-                    const string adminUserName = "admin";
-                    const string adminEmail = "admin@admin.com";
-                    const string adminFirstName = "Admin";
-                    const string adminLastName = "Admin";
-
-                    var user = new PetHotelUser
-                    {
-                        Email = adminEmail,
-                        UserName = adminUserName,
-                        FirstName = adminFirstName,
-                        LastName = adminLastName
-                    };
-
-                    await userManager.CreateAsync(user, adminPassword);
-
-                    await userManager.AddToRoleAsync(user, role.Name);
-                })
-                .GetAwaiter()
-                .GetResult();
+           
         }
 
     }
