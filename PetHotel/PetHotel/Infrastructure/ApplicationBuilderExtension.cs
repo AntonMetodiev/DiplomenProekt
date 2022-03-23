@@ -22,6 +22,20 @@ namespace PetHotel.App.Infrastructure
             return app;
         }
 
+        private static async Task RoleSeeder(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            string[] roleNames = { "Administrator", "Client" };
+            IdentityResult roleResult;
+            foreach (var role in roleNames)
+            {
+                var roleExist = await roleManager.RoleExistsAsync(role);
+                if (!roleExist)
+                {
+                    roleResult = await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
+        }
 
         private static async Task SeedAdministrator(IServiceProvider serviceProvider)
         {
@@ -32,6 +46,9 @@ namespace PetHotel.App.Infrastructure
                 ApplicationUser user = new ApplicationUser();
                 user.UserName = "admin";
                 user.Email = "admin@admin.com";
+                user.FirstName = "Admin";
+                user.LastName = "Admin";
+                user.PhoneNumber = "0892648610";
 
                 var result = await userManager.CreateAsync
                     (user, "123!@#qweQWE");
