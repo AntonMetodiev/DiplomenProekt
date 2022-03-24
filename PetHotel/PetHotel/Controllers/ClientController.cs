@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PetHotel.App.Models;
 using PetHotel.Data;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,19 @@ namespace PetHotel.App.Controllers
             this.context = context;
         }
         // GET: ClientController
-        public ActionResult Index()
+        public ActionResult AllClients()
         {
-            return View();
+            List<ClientBindingAllViewModel> users = context.Users.Select(clients => new ClientBindingAllViewModel
+            {
+                Id = clients.Id,
+                UserName = clients.UserName,
+                FirstName = clients.FirstName,
+                LastName = clients.LastName,
+                Email = clients.Email,
+                PhoneNumber = clients.PhoneNumber
+
+            }).ToList();
+            return View(users);
         }
 
         // GET: ClientController/Details/5

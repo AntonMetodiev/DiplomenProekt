@@ -48,15 +48,15 @@ namespace PetHotel.App.Areas.Identity.Pages.Account
             public string Username { get; set; }
 
             [Required]
-            [Display(Name = "FirstName")]
+            [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
             [Required]
-            [Display(Name = "LastName")]
+            [Display(Name = "Last Name")]
             public string LastName { get; set; }
 
             [Required]
-            [Display(Name = "PhoneNumber")]
+            [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
 
             [Required]
@@ -88,7 +88,7 @@ namespace PetHotel.App.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Username, Email = Input.Email, FirstName=Input.FirstName, LastName=Input.LastName,PhoneNumber=Input.PhoneNumber};
+                var user = new ApplicationUser { UserName = Input.Username, Email = Input.Email, FirstName=Input.FirstName, LastName=Input.LastName, PhoneNumber=Input.PhoneNumber};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

@@ -15,6 +15,7 @@ namespace PetHotel.Data
         {
             this.Database.EnsureCreated();
         }
+        public DbSet<PetHotel.App.Models.ClientBindingAllViewModel> ClientBindingAllViewModel { get; set; }
        
     }
 }
