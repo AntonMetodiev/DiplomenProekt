@@ -14,7 +14,6 @@ namespace PetHotel.App.Entities
         public string Id { get; set; }
 
         [Required]
-        [Display(Name = "Name")]
         public string Name { get; set; }
 
         [Required]
@@ -27,5 +26,7 @@ namespace PetHotel.App.Entities
 
         [Required]
         public string Description { get; set; }
+
+        public virtual ICollection<Request> Requests { get; set; }
     }
 }

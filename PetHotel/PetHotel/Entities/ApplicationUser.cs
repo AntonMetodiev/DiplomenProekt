@@ -10,5 +10,7 @@ namespace PetHotel.App.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        public virtual ICollection<Request> Requests { get; set; }
     }
 }
