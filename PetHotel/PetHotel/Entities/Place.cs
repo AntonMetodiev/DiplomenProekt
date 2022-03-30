@@ -23,7 +23,7 @@ namespace PetHotel.App.Entities
 
         public int Area { get; set; }
 
-        public virtual ICollection<Place> Places { get; set; }
+        public virtual ICollection<Accomodation> Accomodations { get; set; }
 
     }
 }
