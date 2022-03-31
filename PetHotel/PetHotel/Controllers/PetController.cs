@@ -39,7 +39,7 @@ namespace PetHotel.App.Controllers
         {
             if (ModelState.IsValid)
             {
-                var created = _petService.Create(bindingModel.Name, bindingModel.Age,)
+                var created = _petService.Create(bindingModel.Name, bindingModel.Age, bindingModel.Description);
             }
         }
 

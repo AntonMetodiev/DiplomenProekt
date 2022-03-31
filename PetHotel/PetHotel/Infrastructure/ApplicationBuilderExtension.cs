@@ -21,7 +21,6 @@ namespace PetHotel.App.Infrastructure
             await SeedAdministrator(services);
 
             var data = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            SeedTypes(data);
             return app;
         }
 
