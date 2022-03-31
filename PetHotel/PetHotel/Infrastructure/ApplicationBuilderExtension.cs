@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using PetHotel.App.Entities;
+using PetHotel.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,13 @@ namespace PetHotel.App.Infrastructure
         public static async Task<IApplicationBuilder> PrepareDatabase(this IApplicationBuilder app)
         {
             using var serviceScope = app.ApplicationServices.CreateScope();
-            var services = serviceScope.ServiceProvider;
 
+            var services = serviceScope.ServiceProvider;
             await RoleSeeder(services);
             await SeedAdministrator(services);
 
+            var data = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            SeedTypes(data);
             return app;
         }
 
