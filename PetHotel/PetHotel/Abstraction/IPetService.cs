@@ -11,10 +11,9 @@ namespace PetHotel.App.Abstraction
     {
         public bool Create(CreatePetViewModel pet);
         public bool UpdatePet(CreatePetViewModel pet);
-        public List<TypePet> GetTypePets();
-
-        Pet GetPetById(int petId);
-        public bool RemoveById(int petId);
-
+        public List<Pet> GetPets();
+        public Pet GetPetById(string petId);
+        public bool RemoveById(string petId);
+        public List<Pet> GetPets(string searchStringType, string searchStringName);
     }
 }

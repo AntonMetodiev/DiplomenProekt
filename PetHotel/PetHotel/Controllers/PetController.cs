@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PetHotel.App.Abstraction;
+using PetHotel.App.Entities;
 using PetHotel.App.Models;
 using System;
 using System.Collections.Generic;
@@ -18,13 +19,13 @@ namespace PetHotel.App.Controllers
             this._petService = petService;
         }
         // GET: PetController
-        public ActionResult Index()
+        public IActionResult Index()
         {
             return View();
         }
 
         // GET: PetController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult Details(string id)
         {
             return View();
         }
@@ -35,39 +36,48 @@ namespace PetHotel.App.Controllers
             return View();
         }
 
-        public IActionResult Create(CreatePetViewModel bindingModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var created = _petService.Create(bindingModel.Name, bindingModel.Age, bindingModel.Description);
-            }
-        }
 
         // POST: PetController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Create(CreatePetViewModel bindingModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var created = _petService.Create(bindingModel.Name, bindingModel.Age, bindingModel.Description,
+                    bindingModel.TypePet);
+                if (created)
+                {
+                    return this.RedirectToAction("Success");
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return this.View();
         }
 
         // GET: PetController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            return View();
+            Pet item = _petService.GetPetById(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            CreatePetViewModel pet = new CreatePetViewModel()
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Age = item.Age,
+                TypePet = item.TypePet,
+                TypePetId = item.TypePetId,
+                Description = item.Description
+            };
+            return View(pet);
         }
 
         // POST: PetController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(string id, IFormCollection collection)
         {
             try
             {
@@ -80,7 +90,7 @@ namespace PetHotel.App.Controllers
         }
 
         // GET: PetController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
             return View();
         }
@@ -88,7 +98,7 @@ namespace PetHotel.App.Controllers
         // POST: PetController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(string id, IFormCollection collection)
         {
             try
             {

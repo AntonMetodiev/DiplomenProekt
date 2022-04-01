@@ -22,7 +22,7 @@ namespace PetHotel.App.Entities
         [Required]
         public string TypePetId { get; set; }
 
-        public virtual TypePet TypePet { get; set; }
+        public virtual  TypePet TypePet { get; set; }
 
         [Required]
         public string Description { get; set; }

@@ -20,7 +20,7 @@ namespace PetHotel.App.Entities
 
         public virtual Place Place { get; set; }
 
-        public int PricePerNight { get; set; }
+        public decimal PricePerNight { get; set; }
 
     }
 }
