@@ -77,22 +77,37 @@ namespace PetHotel.App.Controllers
         // POST: PetController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, IFormCollection collection)
+        public ActionResult Edit(string id, CreatePetViewModel bindingModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var updated = _petService.UpdatePet(id, bindingModel.Name, bindingModel.Age, bindingModel.Description, bindingModel.TypePet, bindingModel.TypePetId);
+                if (updated)
+                {
+                    return this.RedirectToAction("All");
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View(bindingModel);
         }
 
         // GET: PetController/Delete/5
         public ActionResult Delete(string id)
         {
-            return View();
+            Pet item = _petService.GetPetById(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            CreatePetViewModel pet = new CreatePetViewModel()
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Age = item.Age,
+                Description = item.Description,
+                TypePet = item.TypePet,
+                TypePetId = item.TypePetId
+            };
+            return View(pet);
         }
 
         // POST: PetController/Delete/5
@@ -100,14 +115,20 @@ namespace PetHotel.App.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(string id, IFormCollection collection)
         {
-            try
+            var deleted = _petService.RemoveById(id);
+
+            if (deleted)
             {
-                return RedirectToAction(nameof(Index));
+                return this.RedirectToAction("All", "Pets");
             }
-            catch
+            else
             {
                 return View();
             }
+        }
+        public IActionResult Success()
+        {
+            return this.View();
         }
     }
 }
