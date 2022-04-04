@@ -19,9 +19,26 @@ namespace PetHotel.App.Infrastructure
             var services = serviceScope.ServiceProvider;
             await RoleSeeder(services);
             await SeedAdministrator(services);
-
             var data = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            SeedTypePets(data);
+
             return app;
+        }
+
+        private static void SeedTypePets(ApplicationDbContext data)
+        {
+            if (data.TypePet.Any())
+            {
+                return;
+            }
+            data.TypePet.AddRange(new[]
+            {
+                new TypePet {Name="Dog"},
+                new TypePet {Name="Cat"},
+                new TypePet {Name="Bird"},
+                new TypePet {Name="Rabbit"},
+            });
+            data.SaveChanges();
         }
 
         private static async Task RoleSeeder(IServiceProvider serviceProvider)
@@ -53,7 +70,7 @@ namespace PetHotel.App.Infrastructure
                 user.PhoneNumber = "0892648610";
 
                 var result = await userManager.CreateAsync
-                    (user, "123!@#qweQWE");
+                    (user, "123456");
 
                 if (result.Succeeded)
                 {

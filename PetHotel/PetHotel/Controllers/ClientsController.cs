@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace PetHotel.App.Controllers
 {
-    public class ClientController : Controller
+    public class ClientsController : Controller
     {
         private readonly ApplicationDbContext context;
 
-        public ClientController(ApplicationDbContext context)
+        public ClientsController(ApplicationDbContext context)
         {
             this.context = context;
         }

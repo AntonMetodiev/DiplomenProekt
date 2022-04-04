@@ -9,11 +9,13 @@ namespace PetHotel.App.Abstraction
 {
     public interface IPetService
     {
-        public bool Create(CreatePetViewModel pet);
+        public bool Create(string name, int age, string description,
+                    string typePetId);
         public bool UpdatePet(CreatePetViewModel pet);
         public List<Pet> GetPets();
         public Pet GetPetById(string petId);
         public bool RemoveById(string petId);
-        public List<Pet> GetPets(string searchStringType, string searchStringName);
+        // public List<Pet> GetPets(string searchStringType, string searchStringName);
+        public List<TypePet> GetTypesPet();
     }
 }

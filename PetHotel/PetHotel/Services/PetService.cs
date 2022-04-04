@@ -18,16 +18,17 @@ namespace PetHotel.App.Services
             _context = context;
         }
 
-        public bool Create(CreatePetViewModel pet)
+        
+
+        public bool Create(string name, int age, string description,
+                    string typePetId)
         {
             Pet item = new Pet
             {
-                Name = pet.Name,
-                Age = pet.Age,
-                TypePet = pet.TypePet,
-                Id = pet.Id,
-                TypePetId = pet.TypePetId,
-                Description = pet.Description
+                Name = name,
+                Age = age,
+                TypePetId = typePetId,
+                Description = description
             };
 
             _context.Pets.Add(item);
@@ -45,23 +46,29 @@ namespace PetHotel.App.Services
             return pets;
         }
 
-        public List<Pet> GetPets(string searchStringType, string searchStringName)
+        public List<TypePet> GetTypesPet()
         {
-            List<Pet> pets = _context.Pets.ToList();
-            if (!String.IsNullOrEmpty(searchStringType) && !String.IsNullOrEmpty(searchStringName))
-            {
-                pets = pets.Where(d => d.TypePet.Contains(searchStringType) && d.Name.Contains(searchStringName)).ToList();
-            }
-            else if (!String.IsNullOrEmpty(searchStringType))
-            {
-                pets = pets.Where(d => d.TypePet.Contains(searchStringType)).ToList();
-            }
-            else if (!String.IsNullOrEmpty(searchStringName))
-            {
-                pets = pets.Where(d => d.Name.Contains(searchStringName)).ToList();
-            }
-            return pets;
+            List<TypePet> typesPet = _context.TypePet.ToList();
+            return typesPet;
         }
+
+        /*  public List<Pet> GetPets(string searchStringType, string searchStringName)
+          {
+              List<Pet> pets = _context.Pets.ToList();
+              if (!String.IsNullOrEmpty(searchStringType) && !String.IsNullOrEmpty(searchStringName))
+              {
+                  pets = pets.Where(d => d.TypePet.Contains(searchStringType) && d.Name.Contains(searchStringName)).ToList();
+              }
+              else if (!String.IsNullOrEmpty(searchStringType))
+              {
+                  pets = pets.Where(d => d.TypePet.Contains(searchStringType)).ToList();
+              }
+              else if (!String.IsNullOrEmpty(searchStringName))
+              {
+                  pets = pets.Where(d => d.Name.Contains(searchStringName)).ToList();
+              }
+              return pets;
+          }*/
 
         public bool RemoveById(string petId)
         {
@@ -83,8 +90,6 @@ namespace PetHotel.App.Services
             }
             pet.Name = pet.Name;
             pet.Age = pet.Age;
-            pet.TypePet = pet.TypePet;
-            pet.Id = pet.Id;
             pet.TypePetId = pet.TypePetId;
             pet.Description = pet.Description;
             _context.Update(pet);

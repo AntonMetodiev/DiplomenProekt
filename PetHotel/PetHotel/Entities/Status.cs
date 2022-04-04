@@ -9,6 +9,10 @@ namespace PetHotel.App.Entities
 {
     public class Status
     {
+        public Status()
+        {
+            this.Requests = new HashSet<Request>();
+        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PetHotel.App.Models
 {
-    public class ClientListingViewModel : IdentityUser
+    public class ClientListingViewModel
     {
         [Required]
         [StringLength(100, MinimumLength = 3)]
@@ -19,7 +19,7 @@ namespace PetHotel.App.Models
 
         [Required]
         [MinLength(10)]
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         public bool IsAdmin { get; set; }
     }

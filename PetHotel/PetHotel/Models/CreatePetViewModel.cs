@@ -10,6 +10,10 @@ namespace PetHotel.App.Models
 {
     public class CreatePetViewModel
     {
+        public CreatePetViewModel()
+        {
+            TypesPet = new List<ChoisePetTypeViewModel>();
+        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
@@ -21,11 +25,12 @@ namespace PetHotel.App.Models
         public int Age { get; set; }
 
         [Required]
+        [Display(Name="Type of pet")]
         public string TypePetId { get; set; }
-
-        public TypePet TypePet { get; set; }
 
         [Required]
         public string Description { get; set; }
+
+        public virtual List<ChoisePetTypeViewModel> TypesPet { get; set; }
     }
 }

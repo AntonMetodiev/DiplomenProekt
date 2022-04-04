@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace PetHotel.App.Controllers
 {
-    public class PetController : Controller
+    public class PetsController : Controller
     {
         private readonly IPetService _petService;
 
-        public PetController(IPetService petService)
+        public PetsController(IPetService petService)
         {
             this._petService = petService;
         }
@@ -33,7 +33,15 @@ namespace PetHotel.App.Controllers
         // GET: PetController/Create
         public IActionResult Create()
         {
-            return View();
+            var pet = new CreatePetViewModel();
+            pet.TypesPet = _petService.GetTypesPet()
+                .Select(c => new ChoisePetTypeViewModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToList();
+            return View(pet);
         }
 
 
@@ -45,7 +53,7 @@ namespace PetHotel.App.Controllers
             if (ModelState.IsValid)
             {
                 var created = _petService.Create(bindingModel.Name, bindingModel.Age, bindingModel.Description,
-                    bindingModel.TypePet);
+                    bindingModel.TypePetId);
                 if (created)
                 {
                     return this.RedirectToAction("Success");
@@ -54,7 +62,7 @@ namespace PetHotel.App.Controllers
             return this.View();
         }
 
-        // GET: PetController/Edit/5
+      /*  // GET: PetController/Edit/5
         public ActionResult Edit(string id)
         {
             Pet item = _petService.GetPetById(id);
@@ -130,5 +138,6 @@ namespace PetHotel.App.Controllers
         {
             return this.View();
         }
+      */
     }
 }

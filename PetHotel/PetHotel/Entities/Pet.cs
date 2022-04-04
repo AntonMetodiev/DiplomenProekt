@@ -9,6 +9,10 @@ namespace PetHotel.App.Entities
 {
     public class Pet
     {
+        public Pet()
+        {
+            this.Requests = new HashSet<Request>();
+        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }

@@ -13,6 +13,7 @@ namespace PetHotel.App.Entities
         public TypePet()
         {
             this.Pets = new HashSet<Pet>();
+            this.Places = new HashSet<Place>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -25,6 +26,6 @@ namespace PetHotel.App.Entities
 
         public virtual ICollection<Place> Places { get; set; }
 
-        public TypePets TypePets { get; set; }
+        
     }
 }
