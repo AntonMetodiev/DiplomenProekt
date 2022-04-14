@@ -16,7 +16,7 @@ namespace PetHotel.Data
         public DbSet<Request> Requests { get; set; }
         public DbSet<Place> Places { get; set; }
         public DbSet<Status> Statuses { get; set; }
-        public DbSet<TypePet> TypePet { get; set; }
+        public DbSet<TypePet> TypePets { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

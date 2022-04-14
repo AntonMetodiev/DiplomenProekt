@@ -21,17 +21,35 @@ namespace PetHotel.App.Infrastructure
             await SeedAdministrator(services);
             var data = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             SeedTypePets(data);
+            var dataPlace = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            SeedPlaces(dataPlace);   
 
             return app;
         }
 
-        private static void SeedTypePets(ApplicationDbContext data)
+        private static void SeedPlaces(ApplicationDbContext dataPlace)
         {
-            if (data.TypePet.Any())
+            if (dataPlace.Places.Any())
             {
                 return;
             }
-            data.TypePet.AddRange(new[]
+            dataPlace.Places.AddRange(new[]
+            {
+                new Place {Name="Dog"},
+                new Place {Name="Cat"},
+                new Place {Name="Bird"},
+                new Place {Name="Rabbit"},
+            });
+            dataPlace.SaveChanges();
+        }
+
+        private static void SeedTypePets(ApplicationDbContext data)
+        {
+            if (data.TypePets.Any())
+            {
+                return;
+            }
+            data.TypePets.AddRange(new[]
             {
                 new TypePet {Name="Dog"},
                 new TypePet {Name="Cat"},
