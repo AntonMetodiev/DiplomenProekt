@@ -6,6 +6,7 @@ using PetHotel.App.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PetHotel.App.Controllers
@@ -21,7 +22,36 @@ namespace PetHotel.App.Controllers
         // GET: PetController
         public IActionResult Index()
         {
-            return View();
+            List<ListingPetsViewModel> pets = _petService.GetPets()
+              .Select(item => new ListingPetsViewModel()
+              {
+                  Id = item.Id,
+                  Name=item.Name,
+                  Age=item.Age,
+                  TypePetId=item.TypePetId,
+                  TypePetName=item.TypePet.Name,
+                  Description=item.Description
+
+              }).ToList();
+            return View(pets);
+        }
+
+        public IActionResult My()
+        {
+            string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<ListingPetsViewModel> pets = _petService.GetPets()
+              .Where(x=>x.UserId==currentUserId)
+              .Select(item => new ListingPetsViewModel()
+              {
+                  Id = item.Id,
+                  Name = item.Name,
+                  Age = item.Age,
+                  TypePetId = item.TypePetId,
+                  TypePetName = item.TypePet.Name,
+                  Description = item.Description
+
+              }).ToList();
+            return View(pets);
         }
 
         // GET: PetController/Details/5
@@ -52,8 +82,9 @@ namespace PetHotel.App.Controllers
         {
             if (ModelState.IsValid)
             {
+                string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var created = _petService.Create(bindingModel.Name, bindingModel.Age, bindingModel.Description,
-                    bindingModel.TypePetId);
+                    bindingModel.TypePetId, currentUserId );
                 if (created)
                 {
                     return this.RedirectToAction("Success");

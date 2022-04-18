@@ -19,19 +19,17 @@ namespace PetHotel.App.Entities
         public virtual Pet Pet { get; set; }
 
         [Required]
-        public string Start { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Required]
-        public string End { get; set; }
+        public DateTime EndDate { get; set; }
 
-        [Required]
-        public string UserId { get; set; }
-
-        public virtual ApplicationUser User { get; set; }
-
-        [Required]
-        public string StatusId { get; set; }
+                
+        public int StatusId { get; set; }
         
         public virtual Status Status { get; set; }
+
+        public int? AccomodationId { get; set; }
+        public virtual Accomodation Accomodation { get; set; }
     }
 }

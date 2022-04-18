@@ -14,10 +14,10 @@ namespace PetHotel.App.Entities
             this.Requests = new HashSet<Request>();
         }
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
+       
+        public int Id { get; set; }
         
-        public StatusName StatusName { get; set; }
+        public string StatusName { get; set; }
 
         public virtual ICollection<Request> Requests { get; set; }
     }

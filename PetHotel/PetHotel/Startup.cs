@@ -33,7 +33,8 @@ namespace PetHotel
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
+            options.UseLazyLoadingProxies()
+                .UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -43,6 +44,7 @@ namespace PetHotel
                 .AddDefaultTokenProviders();
             services.AddControllersWithViews();
             services.AddTransient<IPetService, PetService>();
+            services.AddTransient<IRequestService, RequestService>();
             services.AddRazorPages();
 
             services.Configure<IdentityOptions>(options =>

@@ -1,87 +1,210 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using PetHotel.App.Abstraction;
+using PetHotel.App.Entities;
+using PetHotel.App.Models;
+using PetHotel.Data;
 
 namespace PetHotel.App.Controllers
 {
     public class RequestsController : Controller
     {
-        // GET: RequestsController
-        public ActionResult Index()
+        private readonly ApplicationDbContext _context;
+        private readonly IPetService _petService;
+        private readonly IRequestService _requestService;
+
+        public RequestsController(ApplicationDbContext context, 
+            IPetService petService, IRequestService requestService)
         {
-            return View();
+            _context = context;
+            _petService = petService;
+            _requestService = requestService;
         }
 
-        // GET: RequestsController/Details/5
-        public ActionResult Details(int id)
+
+
+
+        // GET: Requests
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var applicationDbContext = _context.Requests.Include(r => r.Accomodation).Include(r => r.Pet).Include(r => r.Status);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: RequestsController/Create
-        public ActionResult Create()
+        // GET: Requests/Details/5
+        public async Task<IActionResult> Details(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var request = await _context.Requests
+                .Include(r => r.Accomodation)
+                .Include(r => r.Pet)
+                .Include(r => r.Status)
+               
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            return View(request);
         }
 
-        // POST: RequestsController/Create
+        // GET: Requests/Create
+        public IActionResult Create(string id)
+        {
+            /* ViewData["AccomodationId"] = new SelectList(_context.Accomodations, "Id", "Name");
+             ViewData["PetId"] = new SelectList(_context.Pets, "Id", "Name");
+             ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "StatusName");
+             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+             return View();*/
+
+            if (id==null)
+            {
+                return NotFound();
+            }
+
+            Pet item = _petService.GetPetById(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            CreateRequestViewModel request = new CreateRequestViewModel();
+            request.PetId = item.Id;
+            request.StartDate = DateTime.Now;
+            request.EndDate = DateTime.Now;
+     
+            return View(request);
+        }
+
+        // POST: Requests/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(string id, CreateRequestViewModel model)
         {
-            try
+            if (!this.ModelState.IsValid)
+            {
+                return NotFound();
+            }
+            //  string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = _petService.GetPetById(id).UserId;
+            //по id на домашния любимец намираме userId на потребителя, който го е регистрирал
+            var created = _requestService.CreateRequest(id, model.StartDate, model.EndDate);
+            if (created)
             {
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
                 return View();
             }
         }
 
-        // GET: RequestsController/Edit/5
-        public ActionResult Edit(int id)
+        // GET: Requests/Edit/5
+        public async Task<IActionResult> Edit(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var request = await _context.Requests.FindAsync(id);
+            if (request == null)
+            {
+                return NotFound();
+            }
+            ViewData["AccomodationId"] = new SelectList(_context.Accomodations, "Id", "Name", request.AccomodationId);
+            ViewData["PetId"] = new SelectList(_context.Pets, "Id", "Id", request.PetId);
+            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Id", request.StatusId);
+           
+            return View(request);
         }
 
-        // POST: RequestsController/Edit/5
+        // POST: Requests/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,PetId,StartDate,EndDate,UserId,StatusId,AccomodationId")] Request request)
         {
-            try
+            if (id != request.Id)
             {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(request);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!RequestExists(request.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            ViewData["AccomodationId"] = new SelectList(_context.Accomodations, "Id", "Name", request.AccomodationId);
+            ViewData["PetId"] = new SelectList(_context.Pets, "Id", "Id", request.PetId);
+            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Id", request.StatusId);
+            
+            return View(request);
         }
 
-        // GET: RequestsController/Delete/5
-        public ActionResult Delete(int id)
+        // GET: Requests/Delete/5
+        public async Task<IActionResult> Delete(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var request = await _context.Requests
+                .Include(r => r.Accomodation)
+                .Include(r => r.Pet)
+                .Include(r => r.Status)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            return View(request);
         }
 
-        // POST: RequestsController/Delete/5
-        [HttpPost]
+        // POST: Requests/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var request = await _context.Requests.FindAsync(id);
+            _context.Requests.Remove(request);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool RequestExists(string id)
+        {
+            return _context.Requests.Any(e => e.Id == id);
         }
     }
 }

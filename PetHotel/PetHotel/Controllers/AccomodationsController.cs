@@ -27,7 +27,7 @@ namespace PetHotel.App.Controllers
         }
 
         // GET: Accomodations/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -48,7 +48,7 @@ namespace PetHotel.App.Controllers
         // GET: Accomodations/Create
         public IActionResult Create()
         {
-            ViewData["PlaceId"] = new SelectList(_context.Places, "Id", "Id");
+            ViewData["PlaceId"] = new SelectList(_context.Places, "Id", "Name");
             return View();
         }
 
@@ -65,12 +65,12 @@ namespace PetHotel.App.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlaceId"] = new SelectList(_context.Places, "Id", "Id", accomodation.PlaceId);
+            ViewData["PlaceId"] = new SelectList(_context.Places, "Id", "Name", accomodation.PlaceId);
             return View(accomodation);
         }
 
         // GET: Accomodations/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -82,7 +82,7 @@ namespace PetHotel.App.Controllers
             {
                 return NotFound();
             }
-            ViewData["PlaceId"] = new SelectList(_context.Places, "Id", "Id", accomodation.PlaceId);
+            ViewData["PlaceId"] = new SelectList(_context.Places, "Id", "Name", accomodation.PlaceId);
             return View(accomodation);
         }
 
@@ -91,7 +91,7 @@ namespace PetHotel.App.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,PlaceId,PricePerNight")] Accomodation accomodation)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,PlaceId,PricePerNight")] Accomodation accomodation)
         {
             if (id != accomodation.Id)
             {
@@ -118,12 +118,12 @@ namespace PetHotel.App.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlaceId"] = new SelectList(_context.Places, "Id", "Id", accomodation.PlaceId);
+            ViewData["PlaceId"] = new SelectList(_context.Places, "Id", "Name", accomodation.PlaceId);
             return View(accomodation);
         }
 
         // GET: Accomodations/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -144,7 +144,7 @@ namespace PetHotel.App.Controllers
         // POST: Accomodations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var accomodation = await _context.Accomodations.FindAsync(id);
             _context.Accomodations.Remove(accomodation);
@@ -152,7 +152,7 @@ namespace PetHotel.App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AccomodationExists(string id)
+        private bool AccomodationExists(int id)
         {
             return _context.Accomodations.Any(e => e.Id == id);
         }

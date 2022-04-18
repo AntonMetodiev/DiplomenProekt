@@ -8,7 +8,7 @@ namespace PetHotel.App.Models
 {
     public class ChoisePetTypeViewModel
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         [Display(Name ="Type of pet")]
         public string Name { get; set; }
     }

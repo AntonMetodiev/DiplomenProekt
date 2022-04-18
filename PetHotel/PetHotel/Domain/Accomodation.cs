@@ -9,18 +9,23 @@ namespace PetHotel.App.Entities
 {
     public class Accomodation
     {
+        public Accomodation()
+        {
+            this.Requests = new HashSet<Request>();
+        }
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
+       
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }
 
-        public string PlaceId { get; set; }
+        public int PlaceId { get; set; }
 
         public virtual Place Place { get; set; }
 
         public decimal PricePerNight { get; set; }
+        public virtual ICollection<Request> Requests { get; set; }
 
     }
 }

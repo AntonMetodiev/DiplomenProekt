@@ -22,27 +22,11 @@ namespace PetHotel.App.Infrastructure
             var data = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             SeedTypePets(data);
             var dataPlace = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            SeedPlaces(dataPlace);   
-
+            SeedPlaces(dataPlace);
+            var dataStatus = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            SeedStatus(dataStatus);
             return app;
         }
-
-        private static void SeedPlaces(ApplicationDbContext dataPlace)
-        {
-            if (dataPlace.Places.Any())
-            {
-                return;
-            }
-            dataPlace.Places.AddRange(new[]
-            {
-                new Place {Name="Dog"},
-                new Place {Name="Cat"},
-                new Place {Name="Bird"},
-                new Place {Name="Rabbit"},
-            });
-            dataPlace.SaveChanges();
-        }
-
         private static void SeedTypePets(ApplicationDbContext data)
         {
             if (data.TypePets.Any())
@@ -58,6 +42,40 @@ namespace PetHotel.App.Infrastructure
             });
             data.SaveChanges();
         }
+        private static void SeedStatus(ApplicationDbContext dataStatus)
+        {
+            if (dataStatus.Statuses.Any())
+            {
+                return;
+            }
+            dataStatus.Statuses.AddRange(new[]
+            {
+                new Status {StatusName="Approved"},
+                new Status {StatusName="Pending"},
+                new Status {StatusName="Rejected"},
+               
+            });
+            dataStatus.SaveChanges();
+        }
+
+        
+        private static void SeedPlaces(ApplicationDbContext dataPlace)
+        {
+            if (dataPlace.Places.Any())
+            {
+                return;
+            }
+            dataPlace.Places.AddRange(new[]
+            {
+                new Place {Name="Dog", TypePetId=1, Area=30},
+                new Place {Name="Cat", TypePetId=2, Area=30},
+                new Place {Name="Bird", TypePetId=3, Area=20},
+                new Place {Name="Rabbit", TypePetId=4, Area=30},
+            });
+            dataPlace.SaveChanges();
+        }
+
+        
 
         private static async Task RoleSeeder(IServiceProvider serviceProvider)
         {

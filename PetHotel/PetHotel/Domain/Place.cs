@@ -12,22 +12,25 @@ namespace PetHotel.App.Entities
         public Place()
         {
             this.Accomodations = new HashSet<Accomodation>();
+           
         }
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
+       
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }
 
         [Required]
-        public string TypePetId { get; set; }
+        public int TypePetId { get; set; }
 
         public virtual TypePet TypePet { get; set; }
 
         public int Area { get; set; }
 
         public virtual ICollection<Accomodation> Accomodations { get; set; }
+        
+
 
     }
 }

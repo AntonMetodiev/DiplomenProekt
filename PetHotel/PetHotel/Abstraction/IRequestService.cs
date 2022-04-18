@@ -7,6 +7,7 @@ namespace PetHotel.App.Abstraction
 {
     public interface IRequestService
     {
-
+        bool CreateRequest(string petId, DateTime startDate, DateTime endDate);
+        bool ApproveRequest(string requestId, string petId, DateTime startDate, DateTime endDateint, int statusId, int accomodationId);
     }
 }

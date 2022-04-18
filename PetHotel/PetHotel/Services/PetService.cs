@@ -21,14 +21,15 @@ namespace PetHotel.App.Services
         
 
         public bool Create(string name, int age, string description,
-                    string typePetId)
+                    int typePetId, string userId)
         {
             Pet item = new Pet
             {
                 Name = name,
                 Age = age,
                 TypePetId = typePetId,
-                Description = description
+                Description = description,
+                UserId=userId
             };
 
             _context.Pets.Add(item);
@@ -48,7 +49,7 @@ namespace PetHotel.App.Services
 
         public List<TypePet> GetTypesPet()
         {
-            List<TypePet> typesPet = _context.TypePet.ToList();
+            List<TypePet> typesPet = _context.TypePets.ToList();
             return typesPet;
         }
 

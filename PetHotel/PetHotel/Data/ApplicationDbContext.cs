@@ -25,5 +25,9 @@ namespace PetHotel.Data
         }
 
         public DbSet<PetHotel.App.Models.CreatePetViewModel> CreatePetViewModel { get; set; }
+
+        public DbSet<PetHotel.App.Models.CreateRequestViewModel> CreateRequestViewModel { get; set; }
+
+        public DbSet<PetHotel.App.Models.ListingPetsViewModel> ListingPetsViewModel { get; set; }
     }
 }

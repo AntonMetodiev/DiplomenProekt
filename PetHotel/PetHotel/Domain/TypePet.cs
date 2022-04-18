@@ -1,4 +1,4 @@
-﻿using PetHotel.App.Entities.Enum;
+﻿using PetHotel.App.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,8 +16,8 @@ namespace PetHotel.App.Entities
             this.Places = new HashSet<Place>();
         }
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
+        
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }

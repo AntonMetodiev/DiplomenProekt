@@ -29,26 +29,37 @@
                         </li>
                         @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
                         {
-            <li class="nav-item active">
-                <div class="dropdown show">
-                    <a class="nav-link active dropdown-toggle" href="#"
-                       id="dropdownMenuLink"
-                       data-toggle="dropdown"
-                       aria-haspopup="true"
-                       aria-expanded="false">
-                        Requests
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="/Offers/Index">All</a>
-                        <a class="dropdown-item" href="/Offers/Create">Add</a>
-                    </div>
-                </div>
-            </li>}
+                    <li class="nav-item active">
+                        <div class="dropdown show">
+                            <a class="nav-link active dropdown-toggle" href="#"
+                               id="dropdownMenuLink"
+                               data-toggle="dropdown"
+                               aria-haspopup="true"
+                               aria-expanded="false">
+                                Requests
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="/Requests/Index">All</a>
+                                <a class="dropdown-item" href="/Requests/Create">Add</a>
+                            </div>
+                        </div>
+                    </li>}
+
                         @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
                         {
-            <li class="nav-item">
-                <a class="nav-link active" asp-area="" asp-controller="Clients" asp-action="AllClients">Clients</a>
-            </li>}
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-area="" asp-controller="Clients" asp-action="AllClients">Clients</a>
+                    </li>}
+                        @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Client")))
+                        {
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-area="" asp-controller="Pets" asp-action="My">My Pets</a>
+                    </li>}
+                        @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Client")))
+                        {
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-area="" asp-controller="Requests" asp-action="Index">My Reservations</a>
+                    </li>}
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

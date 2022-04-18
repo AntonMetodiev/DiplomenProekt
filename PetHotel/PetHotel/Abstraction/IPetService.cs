@@ -10,7 +10,7 @@ namespace PetHotel.App.Abstraction
     public interface IPetService
     {
         public bool Create(string name, int age, string description,
-                    string typePetId);
+                    int typePetId, string userId);
         public bool UpdatePet(CreatePetViewModel pet);
         public List<Pet> GetPets();
         public Pet GetPetById(string petId);

@@ -24,7 +24,7 @@ namespace PetHotel.App.Entities
         public int Age { get; set; }
 
         [Required]
-        public string TypePetId { get; set; }
+        public int TypePetId { get; set; }
 
         public virtual  TypePet TypePet { get; set; }
 
@@ -32,5 +32,9 @@ namespace PetHotel.App.Entities
         public string Description { get; set; }
 
         public virtual ICollection<Request> Requests { get; set; }
+        [Required]
+        public string UserId { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
     }
 }
