@@ -24,9 +24,11 @@
                                 <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
+                        @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Client")))
+                        {
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Pets" asp-action="Create">Add Pet</a>
-                        </li>
+                        </li>}
                         @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
                         {
                     <li class="nav-item active">

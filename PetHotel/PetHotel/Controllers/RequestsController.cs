@@ -68,7 +68,7 @@ namespace PetHotel.App.Controllers
              ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
              return View();*/
 
-            if (id==null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -79,10 +79,10 @@ namespace PetHotel.App.Controllers
                 return NotFound();
             }
             CreateRequestViewModel request = new CreateRequestViewModel();
-            request.PetId = item.Id;
+            request.PetId = id;
             request.StartDate = DateTime.Now;
             request.EndDate = DateTime.Now;
-     
+
             return View(request);
         }
 
