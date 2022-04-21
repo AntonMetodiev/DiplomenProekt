@@ -37,6 +37,13 @@ namespace PetHotel.App.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+        public async Task<IActionResult> My()
+        {
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var applicationDbContext = _context.Requests.Where(x => x.Pet.UserId == currentUserId).Include(r => r.Accomodation).Include(r => r.Pet).Include(r => r.Status);
+            return View(await applicationDbContext.ToListAsync());
+        }
+
         // GET: Requests/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -62,13 +69,7 @@ namespace PetHotel.App.Controllers
         // GET: Requests/Create
         public IActionResult Create(string id)
         {
-            /* ViewData["AccomodationId"] = new SelectList(_context.Accomodations, "Id", "Name");
-             ViewData["PetId"] = new SelectList(_context.Pets, "Id", "Name");
-             ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "StatusName");
-             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
-             return View();*/
-
-            if (id == null)
+            if (id==null)
             {
                 return NotFound();
             }
@@ -79,10 +80,10 @@ namespace PetHotel.App.Controllers
                 return NotFound();
             }
             CreateRequestViewModel request = new CreateRequestViewModel();
-            request.PetId = id;
+            request.PetId = item.Id;
             request.StartDate = DateTime.Now;
             request.EndDate = DateTime.Now;
-
+     
             return View(request);
         }
 
@@ -103,7 +104,11 @@ namespace PetHotel.App.Controllers
             var created = _requestService.CreateRequest(id, model.StartDate, model.EndDate);
             if (created)
             {
-                return RedirectToAction(nameof(Index));
+                if (User.IsInRole("Administrator"))
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return RedirectToAction(nameof(My));
             }
             else
             {

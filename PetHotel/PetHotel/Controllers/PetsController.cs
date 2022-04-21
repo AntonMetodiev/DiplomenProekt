@@ -93,81 +93,10 @@ namespace PetHotel.App.Controllers
             return this.View();
         }
 
-        /*  // GET: PetController/Edit/5
-          public ActionResult Edit(string id)
-          {
-              Pet item = _petService.GetPetById(id);
-              if (item == null)
-              {
-                  return NotFound();
-              }
-              CreatePetViewModel pet = new CreatePetViewModel()
-              {
-                  Id = item.Id,
-                  Name = item.Name,
-                  Age = item.Age,
-                  TypePet = item.TypePet,
-                  TypePetId = item.TypePetId,
-                  Description = item.Description
-              };
-              return View(pet);
-          }
-
-          // POST: PetController/Edit/5
-          [HttpPost]
-          [ValidateAntiForgeryToken]
-          public ActionResult Edit(string id, CreatePetViewModel bindingModel)
-          {
-              if (ModelState.IsValid)
-              {
-                  var updated = _petService.UpdatePet(id, bindingModel.Name, bindingModel.Age, bindingModel.Description, bindingModel.TypePet, bindingModel.TypePetId);
-                  if (updated)
-                  {
-                      return this.RedirectToAction("All");
-                  }
-              }
-              return View(bindingModel);
-          }
-
-          // GET: PetController/Delete/5
-          public ActionResult Delete(string id)
-          {
-              Pet item = _petService.GetPetById(id);
-              if (item == null)
-              {
-                  return NotFound();
-              }
-              CreatePetViewModel pet = new CreatePetViewModel()
-              {
-                  Id = item.Id,
-                  Name = item.Name,
-                  Age = item.Age,
-                  Description = item.Description,
-                  TypePet = item.TypePet,
-                  TypePetId = item.TypePetId
-              };
-              return View(pet);
-          }
-
-          // POST: PetController/Delete/5
-          [HttpPost]
-          [ValidateAntiForgeryToken]
-          public ActionResult Delete(string id, IFormCollection collection)
-          {
-              var deleted = _petService.RemoveById(id);
-
-              if (deleted)
-              {
-                  return this.RedirectToAction("All", "Pets");
-              }
-              else
-              {
-                  return View();
-              }
-          }*/
         public IActionResult Success()
         {
             return this.View();
         }
+
     }
 }

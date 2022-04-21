@@ -53,24 +53,6 @@ namespace PetHotel.App.Services
             return typesPet;
         }
 
-        /*  public List<Pet> GetPets(string searchStringType, string searchStringName)
-          {
-              List<Pet> pets = _context.Pets.ToList();
-              if (!String.IsNullOrEmpty(searchStringType) && !String.IsNullOrEmpty(searchStringName))
-              {
-                  pets = pets.Where(d => d.TypePet.Contains(searchStringType) && d.Name.Contains(searchStringName)).ToList();
-              }
-              else if (!String.IsNullOrEmpty(searchStringType))
-              {
-                  pets = pets.Where(d => d.TypePet.Contains(searchStringType)).ToList();
-              }
-              else if (!String.IsNullOrEmpty(searchStringName))
-              {
-                  pets = pets.Where(d => d.Name.Contains(searchStringName)).ToList();
-              }
-              return pets;
-          }*/
-
         public bool RemoveById(string petId)
         {
             var pet = GetPetById(petId);

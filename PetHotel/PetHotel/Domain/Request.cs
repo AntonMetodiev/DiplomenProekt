@@ -31,5 +31,15 @@ namespace PetHotel.App.Entities
 
         public int? AccomodationId { get; set; }
         public virtual Accomodation Accomodation { get; set; }
+
+        public decimal TotalPrice
+        {
+            get
+            {
+                if (Accomodation!=null)
+                    return Accomodation.PricePerNight * (int)(EndDate - StartDate).TotalDays;
+                else return 0;
+            }
+        }
     }
 }

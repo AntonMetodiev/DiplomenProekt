@@ -14,7 +14,7 @@ namespace PetHotel.App.Models
         {
             TypesPet = new List<ChoisePetTypeViewModel>();
         }
-        [Key]
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
 
