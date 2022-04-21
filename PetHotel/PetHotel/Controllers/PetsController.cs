@@ -93,7 +93,7 @@ namespace PetHotel.App.Controllers
             return this.View();
         }
 
-        /*  // GET: PetController/Edit/5
+         /*// GET: PetController/Edit/5
           public ActionResult Edit(string id)
           {
               Pet item = _petService.GetPetById(id);
