@@ -4,10 +4,10 @@
     ViewData["Title"] = "My";
 }
 
-<h1>My</h1>
+<h1>My Pets</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-dark">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -45,7 +45,7 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                <a asp-action="Create" asp-controller="Requests" asp-route-id="@item.Id">Request</a> |
+                <a asp-action="Create" asp-controller="Requests" asp-route-id="@item.Id" class="btn btn-primary">Request</a> |
             </td>
         </tr>
 }
