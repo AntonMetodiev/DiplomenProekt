@@ -41,7 +41,10 @@
                             <li class="nav-item">
                                 <a class="nav-link active" asp-area="" asp-controller="Requests" asp-action="My">My Reservations</a>
                             </li>
-}
+                            <li class="nav-item">
+                                <a class="nav-link active" asp-area="" asp-controller="Accomodations" asp-action="Index">Accommodations</a>
+                            </li>
+                        }
                         @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
                         {
                             <li class="nav-item active">
@@ -68,9 +71,9 @@
                                 <a class="nav-link active" asp-area="" asp-controller="Places" asp-action="Index">Places</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" asp-area="" asp-controller="Accomodations" asp-action="Index">Accomodations</a>
+                                <a class="nav-link active" asp-area="" asp-controller="Accomodations" asp-action="Index">Accommodations</a>
                             </li>
-}
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
